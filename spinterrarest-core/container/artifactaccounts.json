@@ -1,25 +1,47 @@
-{
-  "artifactaccounts": [
-    {
-      "accountname": "hanumeshc",
-      "artifacttype": "Github",
-      "host": "https://github.com",
-      "username": "hanumeshc",
-      "password": "Hanumesh123"
-    },
-    {
-      "accountname": "OpsMx-artifact-Bitbucket-account",
-      "artifacttype": "Bitbucket",
-      "host": "https://bitbucket.org",
-      "username": "abc-username",
-      "password": "abc-password"
-    },
-    {
-      "accountname": "OpsMx-artifact-S3-account",
-      "artifacttype": "S3",
-      "awsaccesskey": "abc-awsaccesskey",
-      "awssecretkey": "abc-awssecretkey",
-      "region": "abc-region"
-    }
-  ]
+variable "key_name" {}
+provider "aws" {
+
+access_key = "AKIA2VHYVXSDAOLB2AVE"
+secret_key = "inyWdPVWEY/i44AqenZbHqgHHnoKS2DpNkuwSbPj"
+region = "us-east-1"
+}
+
+resource "aws_instance" "sample"{
+ami = "ami-098f16afa9edf40be"
+instance_type = "t2.micro"
+key_name = "${aws_key_pair.generated_key.key_name}"
+security_groups = ["${aws_security_group.ingress-all-test.name}"]
+tags = {
+Name = "server1"
+}
+
+}
+
+resource "tls_private_key" "example" {
+algorithm = "RSA"
+rsa_bits = 4096
+}
+
+resource "aws_key_pair" "generated_key" {
+key_name = "${var.key_name}"
+public_key = "${tls_private_key.example.public_key_openssh}"
+}
+
+resource "aws_security_group" "ingress-all-test" {
+name = "allow-all-sg"
+ingress {
+cidr_blocks = [
+"0.0.0.0/0"
+]
+from_port = 0
+to_port = 65535
+protocol = "tcp"
+}
+// Terraform removes the default rule
+egress {
+from_port = 0
+to_port = 0
+protocol = "-1"
+cidr_blocks = ["0.0.0.0/0"]
+}
 }
