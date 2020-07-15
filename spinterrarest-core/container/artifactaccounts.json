@@ -1,7 +1,7 @@
 {
   "artifactaccounts": [
     {
-      "accountname": "OpsMx-artifact-Github-account",
+      "accountname": "hanumeshc",
       "artifacttype": "Github",
       "host": "https://github.com",
       "username": "hanumeshc",
