@@ -4,8 +4,8 @@
       "accountname": "OpsMx-artifact-Github-account",
       "artifacttype": "Github",
       "host": "https://github.com",
-      "username": "abc-username",
-      "password": "abc-password"
+      "username": "hanumeshc",
+      "password": "Hanumesh123"
     },
     {
       "accountname": "OpsMx-artifact-Bitbucket-account",
